@@ -3,25 +3,56 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      canvas {
+        border: 5px solid black; /* Umrandung für das Spielfeld */
+      }
+      #startButton {
+        padding: 10px 20px;
+        font-size: 20px;
+        background-color: #3b8a55;
+        color: white;
+        border: none;
+        cursor: pointer;
+        margin-left: 20px; /* Button nach rechts */
+        position: absolute;
+        top: 1690px;
+      }
+      #score {
+        position: absolute;
+        padding: 10px 20px;
+        top: 1140px;
+        font-size: 30px;
+      }
+      #levelCompleted {
+        position: absolute;
+        padding: 20px 30px;
+        top: 1340px;
+        margin-left: 140px;
+        font-size: 35px;
+        color: green;
+      }
+    </style>
     <title>Eigenes Spiel</title>
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="test.css" />
   </head>
   <body>
     <header>
       <h1>Eigenes Spiel</h1>
       <nav>
         <ul>
-          <li><a href="Projekt.html">Startseite</a></li>
-          <li><a href="Levels.html">Levels & Tutorial</a></li>
+          <li><a href="#">Startseite</a></li>
+          <li><a href="#">Levels & Tutorial</a></li>
         </ul>
       </nav>
     </header>
+
     <main>
       <section>
         <h2>Herzlich Willkommen</h2>
         <p>
           Das hier ist mein Abschluss Projekt für die 3. Sek.<br />
-          Ich habe ein eigenes Spiel programmiert. Ich habe das Grungerüst
+          Ich habe ein eigenes Spiel programmiert. Ich habe das Grundgerüst
           <br />
           von dem Spiel "Snake" genommen und so verändert wie ich es wollte.
         </p>
@@ -41,11 +72,204 @@
           *Eine Gameengine ist ein Programm, wo man eigene Spiele einfacher und
           besser erstellen.
         </p>
+
+        <h2>Tutorial</h2>
+        <h3>Spielziel:</h3>
+        <p>
+          Man muss eine bestimmte Anzahl von "Essen" (Score) gegessen haben, um
+          das Level zu schaffen.
+        </p>
+        <p>
+          Die Schlange wird grösser, wenn man das Essen (gelbe Quadrat)
+          "frisst".
+        </p>
+        <p>
+          Man darf nicht die Wände oder sich selbst berühren, sonst wird das
+          Spiel beendet und man hat verloren.
+        </p>
+        <p>Jedes Level wird immer schneller und schwieriger.</p>
       </section>
+
+      <section>
+        <h3>Steuerung:</h3>
+        <p>Nach Oben: ⬆️ oder W</p>
+        <p>Nach Unten: ⬇️ oder S</p>
+        <p>Nach Rechts: ➡️ oder D</p>
+        <p>Nach Links: ⬅️ oder A</p>
+      </section>
+      <br />
+      <br />
+      <h1>Level 1</h1>
+      <br />
+      <canvas id="snakeCanvas" width="600" height="600"></canvas>
+      <button id="startButton">Start Game</button>
+      <div id="score">Score: 0</div>
+      <div id="levelCompleted"></div>
+      <script>
+        const canvas = document.getElementById("snakeCanvas");
+        const ctx = canvas.getContext("2d");
+
+        const boxSize = 20;
+        const gridSize = Math.floor(canvas.width / boxSize);
+        const startButton = document.getElementById("startButton");
+        const scoreDisplay = document.getElementById("score");
+        const levelCompleted = document.getElementById("levelCompleted");
+
+        let snake = [];
+        let food = { x: 0, y: 0 };
+        let gameStarted = false;
+        let gameOver = false;
+        let score = 0;
+
+        function draw() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+          if (gameStarted && !gameOver) {
+            // Draw Snake
+            ctx.fillStyle = "green"; // Schlange grün
+            snake.forEach((segment) => {
+              ctx.fillRect(
+                segment.x * boxSize,
+                segment.y * boxSize,
+                boxSize,
+                boxSize
+              );
+            });
+
+            // Draw Food
+            ctx.fillStyle = "yellow"; // Essen gelb
+            ctx.fillRect(food.x * boxSize, food.y * boxSize, boxSize, boxSize);
+
+            // Display Score
+            scoreDisplay.innerText = "Score: " + score;
+
+            if (score >= 1) {
+              gameStarted = false;
+              (levelCompleted.innerText = "Level Completed!"),
+                50,
+                canvas.height / 2;
+            } else {
+              levelCompleted.innerText = ""; // Zurücksetzen des Textes
+            }
+          } else if (gameOver) {
+            ctx.fillStyle = "red";
+            ctx.font = "30px Arial";
+            ctx.fillText(
+              "Game Over! Press Start to play again.",
+              50,
+              canvas.height / 2
+            );
+          }
+        }
+
+        function generateFood() {
+          food.x = Math.floor(Math.random() * gridSize);
+          food.y = Math.floor(Math.random() * gridSize);
+        }
+
+        function update() {
+          if (!gameStarted || gameOver) return;
+
+          const head = { ...snake[0] };
+
+          // Update snake position
+          if (direction === "up") head.y--;
+          if (direction === "down") head.y++;
+          if (direction === "left") head.x--;
+          if (direction === "right") head.x++;
+
+          // Check for collision with food
+          if (head.x === food.x && head.y === food.y) {
+            snake.unshift({ ...food });
+            generateFood();
+            score++; // Erhöhe die Punktzahl
+          } else {
+            // Remove the tail
+            snake.pop();
+          }
+
+          // Check for collision with walls
+          if (
+            head.x < 0 ||
+            head.y < 0 ||
+            head.x >= gridSize ||
+            head.y >= gridSize
+          ) {
+            // Game over
+            gameOver = true;
+            return;
+          }
+
+          // Check for collision with itself
+          if (isCollision(head, snake.slice(1))) {
+            // Game over
+            gameOver = true;
+            return;
+          }
+
+          // Move the head to the front
+          snake.unshift(head);
+        }
+
+        function isCollision(point, array) {
+          return array.some(
+            (segment) => segment.x === point.x && segment.y === point.y
+          );
+        }
+
+        function startGame() {
+          snake = [
+            { x: Math.floor(gridSize / 2), y: Math.floor(gridSize / 2) },
+          ];
+          generateFood();
+          direction = "right";
+          gameStarted = true;
+          gameOver = false;
+          score = 0; // Setze die Punktzahl zurück
+        }
+
+        let direction = "right";
+
+        document.addEventListener("keydown", (event) => {
+          if (event.key === "ArrowUp" && direction !== "down") {
+            direction = "up";
+          } else if (event.key === "ArrowDown" && direction !== "up") {
+            direction = "down";
+          } else if (event.key === "ArrowLeft" && direction !== "right") {
+            direction = "left";
+          } else if (event.key === "ArrowRight" && direction !== "left") {
+            direction = "right";
+          }
+        });
+
+        document.addEventListener("keydown", (event) => {
+          if (event.key === "w" && direction !== "down") {
+            direction = "up";
+          } else if (event.key === "s" && direction !== "up") {
+            direction = "down";
+          } else if (event.key === "a" && direction !== "right") {
+            direction = "left";
+          } else if (event.key === "d" && direction !== "left") {
+            direction = "right";
+          }
+        });
+
+        startButton.addEventListener("click", () => {
+          if (!gameStarted || gameOver) {
+            startGame();
+          }
+        });
+
+        generateFood();
+
+        setInterval(() => {
+          update();
+          draw();
+        }, 165);
+      </script>
     </main>
     <footer>
       <p>&copy; 2024 Meine Website. Alle Rechte vorbehalten.</p>
     </footer>
-    <script src="script.js"></script>
   </body>
 </html>
