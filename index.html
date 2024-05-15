@@ -6,6 +6,8 @@
     <style>
       canvas {
         border: 5px solid black; /* Umrandung für das Spielfeld */
+        max-width: 600px; /* Maximale Breite des Spielfeldes */
+        max-height: 600px; /* Maximale Höhe des Spielfeldes */
       }
       #startButton {
         padding: 10px 20px;
@@ -16,25 +18,51 @@
         cursor: pointer;
         margin-left: 20px; /* Button nach rechts */
         position: absolute;
-        top: 1690px;
+        top: 1704px;
+        outline: 3px solid #000000;
+      }
+
+      #obstacleButton {
+        padding: 10px 20px;
+        font-size: 20px;
+        background-color: #3b8a55;
+        color: white;
+        border: none;
+        cursor: pointer;
+        margin-left: 20px; /* Button nach rechts */
+        position: absolute;
+        top: 1060px;
+        outline: 3px solid #000000;
       }
       #score {
         position: absolute;
-        padding: 10px 20px;
-        top: 1140px;
+        left: 52%;
+        padding: 10px;
+        top: 1146px;
         font-size: 30px;
+        outline: 4px solid #000000;
+        outline-offset: 2px;
+      }
+      #highscore {
+        position: absolute;
+        padding: 10px;
+        left: 83%;
+        top: 250px;
+        font-size: 30px;
+        outline: 4px solid #000000;
+        outline-offset: 2px;
       }
       #levelCompleted {
         position: absolute;
-        padding: 20px 30px;
-        top: 1340px;
-        margin-left: 140px;
+        top: 110%;
+        left: 25%;
+        transform: translate(-50%, -50%);
         font-size: 35px;
         color: green;
       }
     </style>
     <title>Eigenes Spiel</title>
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="test.css" />
   </head>
   <body>
     <header>
@@ -96,8 +124,8 @@
         <p>Nach Unten: ⬇️ oder S</p>
         <p>Nach Rechts: ➡️ oder D</p>
         <p>Nach Links: ⬅️ oder A</p>
+        <p>*Am besten mit WASD steuren.</p>
       </section>
-      <br />
       <br />
       <h1>Level 1</h1>
       <br />
@@ -110,16 +138,20 @@
         const ctx = canvas.getContext("2d");
 
         const boxSize = 20;
-        const gridSize = Math.floor(canvas.width / boxSize);
+        const gridSizeX = Math.floor(canvas.width / boxSize);
+        const gridSizeY = Math.floor(canvas.height / boxSize);
         const startButton = document.getElementById("startButton");
+        const obstacleButton = document.getElementById("obstacleButton");
         const scoreDisplay = document.getElementById("score");
         const levelCompleted = document.getElementById("levelCompleted");
 
         let snake = [];
         let food = { x: 0, y: 0 };
+        let obstacles = [];
         let gameStarted = false;
         let gameOver = false;
         let score = 0;
+        let obstaclesEnabled = false;
 
         function draw() {
           ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -140,14 +172,25 @@
             ctx.fillStyle = "yellow"; // Essen gelb
             ctx.fillRect(food.x * boxSize, food.y * boxSize, boxSize, boxSize);
 
+            // Draw Obstacles
+            if (obstaclesEnabled) {
+              ctx.fillStyle = "black"; // Hindernisse schwarz
+              obstacles.forEach((obstacle) => {
+                ctx.fillRect(
+                  obstacle.x * boxSize,
+                  obstacle.y * boxSize,
+                  boxSize,
+                  boxSize
+                );
+              });
+            }
+
             // Display Score
             scoreDisplay.innerText = "Score: " + score;
 
-            if (score >= 1) {
+            if (score >= 10) {
               gameStarted = false;
-              (levelCompleted.innerText = "Level Completed!"),
-                50,
-                canvas.height / 2;
+              levelCompleted.innerText = "Level geschafft!";
             } else {
               levelCompleted.innerText = ""; // Zurücksetzen des Textes
             }
@@ -163,8 +206,29 @@
         }
 
         function generateFood() {
-          food.x = Math.floor(Math.random() * gridSize);
-          food.y = Math.floor(Math.random() * gridSize);
+          let newFood;
+          do {
+            newFood = {
+              x: Math.floor(Math.random() * gridSizeX),
+              y: Math.floor(Math.random() * gridSizeY),
+            };
+          } while (isCollision(newFood, obstacles)); // Stellen Sie sicher, dass das Essen nicht auf einem Hindernis platziert wird
+          food = newFood;
+        }
+
+        function generateObstacles() {
+          obstacles = [];
+          const numberOfObstacles = 0; // Anzahl der Hindernisse
+          for (let i = 0; i < numberOfObstacles; i++) {
+            let obstacle;
+            do {
+              obstacle = {
+                x: Math.floor(Math.random() * gridSizeX),
+                y: Math.floor(Math.random() * gridSizeY),
+              };
+            } while (isCollision(obstacle, [food])); // Stellen Sie sicher, dass das Hindernis nicht auf dem Essen platziert wird
+            obstacles.push(obstacle);
+          }
         }
 
         function update() {
@@ -192,8 +256,8 @@
           if (
             head.x < 0 ||
             head.y < 0 ||
-            head.x >= gridSize ||
-            head.y >= gridSize
+            head.x >= gridSizeX ||
+            head.y >= gridSizeY
           ) {
             // Game over
             gameOver = true;
@@ -202,6 +266,13 @@
 
           // Check for collision with itself
           if (isCollision(head, snake.slice(1))) {
+            // Game over
+            gameOver = true;
+            return;
+          }
+
+          // Check for collision with obstacles
+          if (obstaclesEnabled && isCollision(head, obstacles)) {
             // Game over
             gameOver = true;
             return;
@@ -219,13 +290,17 @@
 
         function startGame() {
           snake = [
-            { x: Math.floor(gridSize / 2), y: Math.floor(gridSize / 2) },
+            { x: Math.floor(gridSizeX / 2), y: Math.floor(gridSizeY / 2) },
           ];
           generateFood();
+          if (obstaclesEnabled) {
+            generateObstacles();
+          }
           direction = "right";
           gameStarted = true;
           gameOver = false;
           score = 0; // Setze die Punktzahl zurück
+          levelCompleted.innerText = ""; // Zurücksetzen des Level-geschafft-Textes
         }
 
         let direction = "right";
