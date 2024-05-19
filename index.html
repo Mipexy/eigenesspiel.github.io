@@ -4,75 +4,70 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
       canvas {
         border: 5px solid black; /* Umrandung für das Spielfeld */
-        max-width: 600px; /* Maximale Breite des Spielfeldes */
-        max-height: 600px; /* Maximale Höhe des Spielfeldes */
       }
-      #startButton {
+      .button-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 10px;
+      }
+      .game-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 20px;
+        position: relative;
+      }
+      button {
         padding: 10px 20px;
         font-size: 20px;
-        background-color: #3b8a55;
+        background-color: #4caf50;
         color: white;
         border: none;
         cursor: pointer;
-        margin-left: 20px; /* Button nach rechts */
-        position: absolute;
-        top: 1704px;
+        margin: 10px;
         outline: 3px solid #000000;
       }
-
-      #obstacleButton {
-        padding: 10px 20px;
-        font-size: 20px;
-        background-color: #3b8a55;
-        color: white;
-        border: none;
-        cursor: pointer;
-        margin-left: 20px; /* Button nach rechts */
+      .score {
         position: absolute;
-        top: 1060px;
-        outline: 3px solid #000000;
-      }
-      #score {
-        position: absolute;
-        left: 52%;
-        padding: 10px;
-        top: 1146px;
-        font-size: 30px;
+        top: 6px;
+        right: 170px; /* Positionierung der Punktzahl-Anzeige außerhalb des Spielfelds */
+        font-size: 23px;
+        padding: 5px;
         outline: 4px solid #000000;
         outline-offset: 2px;
       }
-      #highscore {
+      .levelCompleted {
         position: absolute;
-        padding: 10px;
-        left: 83%;
-        top: 250px;
-        font-size: 30px;
-        outline: 4px solid #000000;
-        outline-offset: 2px;
-      }
-      #levelCompleted {
-        position: absolute;
-        top: 110%;
-        left: 25%;
+        top: 45%;
+        left: 50%;
         transform: translate(-50%, -50%);
         font-size: 35px;
         color: green;
+        display: none;
+      }
+      .highscore {
+        display: none !important;
       }
     </style>
     <title>Eigenes Spiel</title>
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="test.css" />
   </head>
   <body>
     <header>
       <h1>Eigenes Spiel</h1>
-      <nav>
-        <ul>
-          <li><a href="#">Startseite</a></li>
-          <li><a href="#">Levels & Tutorial</a></li>
-        </ul>
-      </nav>
     </header>
 
     <main>
@@ -128,223 +123,439 @@
       </section>
       <br />
       <h1>Level 1</h1>
-      <br />
-      <canvas id="snakeCanvas" width="600" height="600"></canvas>
-      <button id="startButton">Start Game</button>
-      <div id="score">Score: 0</div>
-      <div id="levelCompleted"></div>
+      <div class="game-container">
+        <canvas id="snakeCanvas1" width="600" height="600"></canvas>
+        <div class="button-container">
+          <button id="startButton1">Start Game</button>
+          <button id="obstacleButton1">Toggle Obstacles</button>
+        </div>
+        <div id="score1" class="score">Score: 0</div>
+        <div id="highscore1" class="highscore"></div>
+        <div id="levelCompleted1" class="levelCompleted">Level Completed!</div>
+      </div>
+
+      <h1>Level 2</h1>
+
+      <div class="game-container">
+        <canvas id="snakeCanvas2" width="600" height="600"></canvas>
+        <div class="button-container">
+          <button id="startButton2">Start Game</button>
+          <button id="obstacleButton2">Toggle Obstacles</button>
+        </div>
+        <div id="score2" class="score">Score: 0</div>
+        <div id="highscore2" class="highscore"></div>
+        <div id="levelCompleted2" class="levelCompleted">Level Completed!</div>
+      </div>
+
+      <h1>Level 3</h1>
+
+      <div class="game-container">
+        <canvas id="snakeCanvas3" width="600" height="600"></canvas>
+        <div class="button-container">
+          <button id="startButton3">Start Game</button>
+          <button id="obstacleButton3">Toggle Obstacles</button>
+        </div>
+        <div id="score3" class="score">Score: 0</div>
+        <div id="highscore3" class="highscore"></div>
+        <div id="levelCompleted3" class="levelCompleted">Level Completed!</div>
+      </div>
+
+      <h1>Level 4</h1>
+
+      <div class="game-container">
+        <canvas id="snakeCanvas4" width="600" height="400"></canvas>
+        <div class="button-container">
+          <button id="startButton4">Start Game</button>
+          <button id="obstacleButton4">Toggle Obstacles</button>
+        </div>
+        <div id="score4" class="score">Score: 0</div>
+        <div id="highscore4" class="highscore"></div>
+        <div id="levelCompleted4" class="levelCompleted">Level Completed!</div>
+      </div>
+
+      <h1>Level 5</h1>
+
+      <div class="game-container">
+        <canvas id="snakeCanvas5" width="600" height="200"></canvas>
+        <div class="button-container">
+          <button id="startButton5">Start Game</button>
+          <button id="obstacleButton5">Toggle Obstacles</button>
+        </div>
+        <div id="score5" class="score">Score: 0</div>
+        <div id="highscore5" class="highscore"></div>
+        <div id="levelCompleted5" class="levelCompleted">Level Completed!</div>
+      </div>
+
+      <h1>Level 6</h1>
+
+      <div class="game-container">
+        <canvas id="snakeCanvas6" width="400" height="400"></canvas>
+        <div class="button-container">
+          <button id="startButton6">Start Game</button>
+          <button id="obstacleButton6">Toggle Obstacles</button>
+        </div>
+        <div id="score6" class="score">Score: 0</div>
+        <div id="highscore6" class="highscore"></div>
+        <div id="levelCompleted6" class="levelCompleted">Level Completed!</div>
+      </div>
+
+      <h1>Level 7</h1>
+
+      <div class="game-container">
+        <canvas id="snakeCanvas7" width="300" height="300"></canvas>
+        <div class="button-container">
+          <button id="startButton7">Start Game</button>
+          <button id="obstacleButton7">Toggle Obstacles</button>
+        </div>
+        <div id="score7" class="score">Score: 0</div>
+        <div id="highscore7" class="highscore"></div>
+        <div id="levelCompleted7" class="levelCompleted">Level Completed!</div>
+      </div>
+
+      <h1>Endloss</h1>
+
+      <div class="game-container">
+        <canvas id="snakeCanvas8" width="800" height="800"></canvas>
+        <div class="button-container">
+          <button id="startButton8">Start Game</button>
+          <button id="obstacleButton8">Toggle Obstacles</button>
+        </div>
+        <div id="score8" class="score">Score: 0</div>
+        <div id="highscore8" class="highscore">Highscore: 0</div>
+        <div id="levelCompleted8" class="levelCompleted">Level Completed!</div>
+      </div>
+
       <script>
-        const canvas = document.getElementById("snakeCanvas");
-        const ctx = canvas.getContext("2d");
+        function SnakeGame(
+          canvasId,
+          startButtonId,
+          obstacleButtonId,
+          scoreId,
+          highscoreId,
+          levelCompletedId,
+          updateInterval,
+          scoreToWin,
+          obstacleCount
+        ) {
+          const canvas = document.getElementById(canvasId);
+          const ctx = canvas.getContext("2d");
 
-        const boxSize = 20;
-        const gridSizeX = Math.floor(canvas.width / boxSize);
-        const gridSizeY = Math.floor(canvas.height / boxSize);
-        const startButton = document.getElementById("startButton");
-        const obstacleButton = document.getElementById("obstacleButton");
-        const scoreDisplay = document.getElementById("score");
-        const levelCompleted = document.getElementById("levelCompleted");
+          const boxSize = 20;
+          const gridSizeX = Math.floor(canvas.width / boxSize);
+          const gridSizeY = Math.floor(canvas.height / boxSize);
+          const startButton = document.getElementById(startButtonId);
+          const obstacleButton = document.getElementById(obstacleButtonId);
+          const scoreDisplay = document.getElementById(scoreId);
+          const highscoreDisplay = document.getElementById(highscoreId);
+          const levelCompleted = document.getElementById(levelCompletedId);
 
-        let snake = [];
-        let food = { x: 0, y: 0 };
-        let obstacles = [];
-        let gameStarted = false;
-        let gameOver = false;
-        let score = 0;
-        let obstaclesEnabled = false;
+          let snake = [];
+          let food = { x: 0, y: 0 };
+          let obstacles = [];
+          let gameStarted = false;
+          let gameOver = false;
+          let score = 0;
+          let highscore = 0;
+          let obstaclesEnabled = false;
 
-        function draw() {
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-          if (gameStarted && !gameOver) {
-            // Draw Snake
-            ctx.fillStyle = "green"; // Schlange grün
-            snake.forEach((segment) => {
-              ctx.fillRect(
-                segment.x * boxSize,
-                segment.y * boxSize,
-                boxSize,
-                boxSize
-              );
-            });
-
-            // Draw Food
-            ctx.fillStyle = "yellow"; // Essen gelb
-            ctx.fillRect(food.x * boxSize, food.y * boxSize, boxSize, boxSize);
-
-            // Draw Obstacles
-            if (obstaclesEnabled) {
-              ctx.fillStyle = "black"; // Hindernisse schwarz
-              obstacles.forEach((obstacle) => {
+            if (gameStarted && !gameOver) {
+              // Draw Snake
+              ctx.fillStyle = "green"; // Schlange grün
+              snake.forEach((segment) => {
                 ctx.fillRect(
-                  obstacle.x * boxSize,
-                  obstacle.y * boxSize,
+                  segment.x * boxSize,
+                  segment.y * boxSize,
                   boxSize,
                   boxSize
                 );
               });
-            }
 
-            // Display Score
-            scoreDisplay.innerText = "Score: " + score;
+              // Draw Food
+              ctx.fillStyle = "yellow"; // Essen gelb
+              ctx.fillRect(
+                food.x * boxSize,
+                food.y * boxSize,
+                boxSize,
+                boxSize
+              );
 
-            if (score >= 10) {
-              gameStarted = false;
-              levelCompleted.innerText = "Level geschafft!";
-            } else {
-              levelCompleted.innerText = ""; // Zurücksetzen des Textes
+              // Draw Obstacles
+              if (obstaclesEnabled) {
+                ctx.fillStyle = "black"; // Hindernisse schwarz
+                obstacles.forEach((obstacle) => {
+                  ctx.fillRect(
+                    obstacle.x * boxSize,
+                    obstacle.y * boxSize,
+                    boxSize,
+                    boxSize
+                  );
+                });
+              }
+
+              // Display Score
+              scoreDisplay.innerText = "Score: " + score;
+              highscoreDisplay.innerText = "Highscore: " + highscore;
+
+              if (score >= scoreToWin) {
+                gameStarted = false;
+                levelCompleted.style.display = "block";
+              } else {
+                levelCompleted.style.display = "none"; // Zurücksetzen des Textes
+              }
+            } else if (gameOver) {
+              ctx.fillStyle = "red";
+              ctx.font = "35px Arial";
+              ctx.fillText(
+                "Game Over!",
+                canvas.width / 2 - 90,
+                canvas.height / 2
+              );
             }
-          } else if (gameOver) {
-            ctx.fillStyle = "red";
-            ctx.font = "30px Arial";
-            ctx.fillText(
-              "Game Over! Press Start to play again.",
-              50,
-              canvas.height / 2
-            );
           }
-        }
 
-        function generateFood() {
-          let newFood;
-          do {
-            newFood = {
-              x: Math.floor(Math.random() * gridSizeX),
-              y: Math.floor(Math.random() * gridSizeY),
-            };
-          } while (isCollision(newFood, obstacles)); // Stellen Sie sicher, dass das Essen nicht auf einem Hindernis platziert wird
-          food = newFood;
-        }
-
-        function generateObstacles() {
-          obstacles = [];
-          const numberOfObstacles = 0; // Anzahl der Hindernisse
-          for (let i = 0; i < numberOfObstacles; i++) {
-            let obstacle;
+          function generateFood() {
+            let newFood;
             do {
-              obstacle = {
+              newFood = {
                 x: Math.floor(Math.random() * gridSizeX),
                 y: Math.floor(Math.random() * gridSizeY),
               };
-            } while (isCollision(obstacle, [food])); // Stellen Sie sicher, dass das Hindernis nicht auf dem Essen platziert wird
-            obstacles.push(obstacle);
+            } while (isCollision(newFood, obstacles)); // Stellen Sie sicher, dass das Essen nicht auf einem Hindernis platziert wird
+            food = newFood;
           }
-        }
 
-        function update() {
-          if (!gameStarted || gameOver) return;
+          function generateObstacles() {
+            obstacles = [];
+            for (let i = 0; i < obstacleCount; i++) {
+              let obstacle;
+              do {
+                obstacle = {
+                  x: Math.floor(Math.random() * gridSizeX),
+                  y: Math.floor(Math.random() * gridSizeY),
+                };
+              } while (isCollision(obstacle, [food])); // Stellen Sie sicher, dass das Hindernis nicht auf dem Essen platziert wird
+              obstacles.push(obstacle);
+            }
+          }
 
-          const head = { ...snake[0] };
+          function update() {
+            if (!gameStarted || gameOver) return;
 
-          // Update snake position
-          if (direction === "up") head.y--;
-          if (direction === "down") head.y++;
-          if (direction === "left") head.x--;
-          if (direction === "right") head.x++;
+            const head = { ...snake[0] };
 
-          // Check for collision with food
-          if (head.x === food.x && head.y === food.y) {
-            snake.unshift({ ...food });
+            // Update snake position
+            if (direction === "up") head.y--;
+            if (direction === "down") head.y++;
+            if (direction === "left") head.x--;
+            if (direction === "right") head.x++;
+
+            // Check for collision with food
+            if (head.x === food.x && head.y === food.y) {
+              snake.unshift({ ...food });
+              generateFood();
+              score++; // Erhöhe die Punktzahl
+              if (score > highscore) {
+                highscore = score; // Aktualisiere den Highscore
+              }
+            } else {
+              // Remove the tail
+              snake.pop();
+            }
+
+            // Check for collision with walls
+            if (
+              head.x < 0 ||
+              head.y < 0 ||
+              head.x >= gridSizeX ||
+              head.y >= gridSizeY
+            ) {
+              // Game over
+              gameOver = true;
+              return;
+            }
+
+            // Check for collision with obstacles
+            if (isCollision(head, obstacles)) {
+              gameOver = true;
+              return;
+            }
+
+            // Check for collision with itself
+            if (isCollision(head, snake.slice(1))) {
+              // Game over
+              gameOver = true;
+              return;
+            }
+
+            // Move the head to the front
+            snake.unshift(head);
+          }
+
+          function isCollision(point, array) {
+            return array.some(
+              (segment) => segment.x === point.x && segment.y === point.y
+            );
+          }
+
+          function startGame() {
+            snake = [
+              { x: Math.floor(gridSizeX / 2), y: Math.floor(gridSizeY / 2) },
+            ];
             generateFood();
-            score++; // Erhöhe die Punktzahl
-          } else {
-            // Remove the tail
-            snake.pop();
+            if (obstaclesEnabled) generateObstacles();
+            direction = "right";
+            gameStarted = true;
+            gameOver = false;
+            score = 0; // Setze die Punktzahl zurück
+            levelCompleted.style.display = "none"; // Verstecke den "Level geschafft" Text
           }
 
-          // Check for collision with walls
-          if (
-            head.x < 0 ||
-            head.y < 0 ||
-            head.x >= gridSizeX ||
-            head.y >= gridSizeY
-          ) {
-            // Game over
-            gameOver = true;
-            return;
-          }
+          let direction = "right";
 
-          // Check for collision with itself
-          if (isCollision(head, snake.slice(1))) {
-            // Game over
-            gameOver = true;
-            return;
-          }
+          document.addEventListener("keydown", (event) => {
+            if (event.key === "ArrowUp" && direction !== "down") {
+              direction = "up";
+            } else if (event.key === "ArrowDown" && direction !== "up") {
+              direction = "down";
+            } else if (event.key === "ArrowLeft" && direction !== "right") {
+              direction = "left";
+            } else if (event.key === "ArrowRight" && direction !== "left") {
+              direction = "right";
+            }
+          });
 
-          // Check for collision with obstacles
-          if (obstaclesEnabled && isCollision(head, obstacles)) {
-            // Game over
-            gameOver = true;
-            return;
-          }
+          document.addEventListener("keydown", (event) => {
+            if (event.key === "w" && direction !== "down") {
+              direction = "up";
+            } else if (event.key === "s" && direction !== "up") {
+              direction = "down";
+            } else if (event.key === "a" && direction !== "right") {
+              direction = "left";
+            } else if (event.key === "d" && direction !== "left") {
+              direction = "right";
+            }
+          });
 
-          // Move the head to the front
-          snake.unshift(head);
-        }
+          startButton.addEventListener("click", () => {
+            if (!gameStarted || gameOver) {
+              startGame();
+            }
+          });
 
-        function isCollision(point, array) {
-          return array.some(
-            (segment) => segment.x === point.x && segment.y === point.y
-          );
-        }
+          obstacleButton.addEventListener("click", () => {
+            obstaclesEnabled = !obstaclesEnabled;
+            if (obstaclesEnabled) {
+              obstacleButton.style.backgroundColor = "red";
+              obstacleButton.innerText = "Obstacles On";
+            } else {
+              obstacleButton.style.backgroundColor = "#4caf50";
+              obstacleButton.innerText = "Obstacles Off";
+            }
+          });
 
-        function startGame() {
-          snake = [
-            { x: Math.floor(gridSizeX / 2), y: Math.floor(gridSizeY / 2) },
-          ];
           generateFood();
-          if (obstaclesEnabled) {
-            generateObstacles();
-          }
-          direction = "right";
-          gameStarted = true;
-          gameOver = false;
-          score = 0; // Setze die Punktzahl zurück
-          levelCompleted.innerText = ""; // Zurücksetzen des Level-geschafft-Textes
+
+          setInterval(() => {
+            update();
+            draw();
+          }, updateInterval);
         }
 
-        let direction = "right";
-
-        document.addEventListener("keydown", (event) => {
-          if (event.key === "ArrowUp" && direction !== "down") {
-            direction = "up";
-          } else if (event.key === "ArrowDown" && direction !== "up") {
-            direction = "down";
-          } else if (event.key === "ArrowLeft" && direction !== "right") {
-            direction = "left";
-          } else if (event.key === "ArrowRight" && direction !== "left") {
-            direction = "right";
-          }
-        });
-
-        document.addEventListener("keydown", (event) => {
-          if (event.key === "w" && direction !== "down") {
-            direction = "up";
-          } else if (event.key === "s" && direction !== "up") {
-            direction = "down";
-          } else if (event.key === "a" && direction !== "right") {
-            direction = "left";
-          } else if (event.key === "d" && direction !== "left") {
-            direction = "right";
-          }
-        });
-
-        startButton.addEventListener("click", () => {
-          if (!gameStarted || gameOver) {
-            startGame();
-          }
-        });
-
-        generateFood();
-
-        setInterval(() => {
-          update();
-          draw();
-        }, 165);
+        SnakeGame(
+          "snakeCanvas1",
+          "startButton1",
+          "obstacleButton1",
+          "score1",
+          "highscore1",
+          "levelCompleted1",
+          165,
+          10,
+          5
+        );
+        SnakeGame(
+          "snakeCanvas2",
+          "startButton2",
+          "obstacleButton2",
+          "score2",
+          "highscore2",
+          "levelCompleted2",
+          145,
+          10,
+          5
+        ); // Schnellere Geschwindigkeit,  höherer Score zum Gewinnen , mehr Hindernisse,
+        SnakeGame(
+          "snakeCanvas3",
+          "startButton3",
+          "obstacleButton3",
+          "score3",
+          "highscore3",
+          "levelCompleted3",
+          115,
+          15,
+          10
+        );
+        SnakeGame(
+          "snakeCanvas4",
+          "startButton4",
+          "obstacleButton4",
+          "score4",
+          "highscore4",
+          "levelCompleted4",
+          145,
+          15,
+          5
+        );
+        SnakeGame(
+          "snakeCanvas5",
+          "startButton5",
+          "obstacleButton5",
+          "score5",
+          "highscore5",
+          "levelCompleted5",
+          145,
+          15,
+          5
+        );
+        SnakeGame(
+          "snakeCanvas6",
+          "startButton6",
+          "obstacleButton6",
+          "score6",
+          "highscore6",
+          "levelCompleted6",
+          135,
+          15,
+          5
+        );
+        SnakeGame(
+          "snakeCanvas7",
+          "startButton7",
+          "obstacleButton7",
+          "score7",
+          "highscore7",
+          "levelCompleted7",
+          155,
+          10,
+          5
+        );
+        SnakeGame(
+          "snakeCanvas8",
+          "startButton8",
+          "obstacleButton8",
+          "score8",
+          "highscore8",
+          "levelCompleted8",
+          100,
+          1000000,
+          75
+        );
       </script>
     </main>
     <footer>
-      <p>&copy; 2024 Meine Website. Alle Rechte vorbehalten.</p>
+      <p>&copy; 2024 Spälti's Website. Alle Rechte vorbehalten.</p>
     </footer>
   </body>
 </html>
